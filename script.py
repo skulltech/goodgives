@@ -40,7 +40,7 @@ lis = tree.xpath('//li[@class="listElement giveawayListItem"]')
 giveaways = []
 print(len(lis))
 for li in lis:
-	ID = li.xpath('.//a[@class="actionLink detailsLink"]/@href')[0].rsplit('/', 1)[-1].split('-')[0]
+	ID = int(li.xpath('.//a[@class="actionLink detailsLink"]/@href')[0].rsplit('/', 1)[-1].split('-')[0])
 	entered = not bool(li.xpath('.//a[@class="gr-button"]/@href'))
 	giveaway = {
 		'Name': li.xpath('.//a[@class="bookTitle"]/text()')[0],
@@ -50,7 +50,20 @@ for li in lis:
 	}
 	giveaways.append(giveaway)
 
+page = session.get('https://www.goodreads.com/giveaway/enter_choose_address/{}'.format(ID))
+tree = html.fromstring(page.content)
+authenticity_token = tree.xpath('//input[@name="authenticity_token"]/@value')[0]
+
+page = session.get('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(ID), params={'address': address})
+tree = html.fromstring(page.content)
+address = int(tree.xpath('//a[@class="gr-button gr-button--small"]/@id')[0][13:])
+
 print(giveaways)
 
-def enter_giveaway(session, id=261589, address=3334069, ):
-	response = session.post('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(id), params={'address': address})
+payload = {
+	'authenticity_token': authenticity_token,
+	'entry_terms': 1,
+	'commit': 'Enter Giveaway'
+}
+response = session.post('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(id),
+						params={'address': address}, data=payload)
