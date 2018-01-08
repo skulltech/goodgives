@@ -27,8 +27,20 @@ response = session.post('https://www.goodreads.com/user/sign_in?source=home', da
 with open('file.html', 'wb') as f:
 	f.write(response.content)
 
-cookies = {
-	'_session_id2': '443ba8de2c43d28203a7dd6cf5105fe1',
-	'csid': 'BAhJIhgwODMtNzQ3NDg1Ny01MDk1OTQ1BjoGRVQ',
-	'locale': 'en'
-}	 
+
+page = session.get('https://www.goodreads.com/giveaway')
+tree = html.fromstring(page.content)
+lis = tree.xpath('//li[@class="giveawayListItem"]')
+
+
+giveaways = []
+for li in lis:
+	giveaway = {
+		'Name': li.xpath('//a[@class="bookTitle"]/text()'),
+		'URL': li.xpath('//a[@class="bookTitle"]/@href'),
+		'GiveawayURL': li.xpath('//a[@class="gr-button"]/@href')
+	}
+
+
+def enter_giveaway(session, id=261589, address=3334069, ):
+	response = session.post('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(id), params={'address': address})
