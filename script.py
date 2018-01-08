@@ -8,12 +8,12 @@ session = requests.Session()
 page = session.get('https://www.goodreads.com/')
 tree = html.fromstring(page.content)
 signInForm = tree.xpath('//div[@id="signInForm"]')[0]
-authenticity_token = signInForm.xpath('//input[@name="authenticity_token"]/@value')[0]
-n = signInForm.xpath('///input[@name="n"]/@value')[0]
+authenticity_token = signInForm.xpath('.//input[@name="authenticity_token"]/@value')[0]
+n = signInForm.xpath('.//input[@name="n"]/@value')[0]
 
 print('authenticity_token: {0}\nn: {1}'.format(authenticity_token, n))
 
-USERNAME = 'sample@gmail.com'
+USERNAME = 'sumit.ghosh32@gmail.com'
 PASSWORD = 'pw'
 
 payload = {
@@ -29,18 +29,28 @@ with open('file.html', 'wb') as f:
 
 
 page = session.get('https://www.goodreads.com/giveaway')
+
+with open('file.html', 'wb') as f:
+	f.write(page.content)
+
 tree = html.fromstring(page.content)
-lis = tree.xpath('//li[@class="giveawayListItem"]')
+lis = tree.xpath('//li[@class="listElement giveawayListItem"]')
 
 
 giveaways = []
+print(len(lis))
 for li in lis:
+	ID = li.xpath('.//a[@class="actionLink detailsLink"]/@href')[0].rsplit('/', 1)[-1].split('-')[0]
+	entered = not bool(li.xpath('.//a[@class="gr-button"]/@href'))
 	giveaway = {
-		'Name': li.xpath('//a[@class="bookTitle"]/text()'),
-		'URL': li.xpath('//a[@class="bookTitle"]/@href'),
-		'GiveawayURL': li.xpath('//a[@class="gr-button"]/@href')
+		'Name': li.xpath('.//a[@class="bookTitle"]/text()')[0],
+		'URL': li.xpath('.//a[@class="bookTitle"]/@href')[0],
+		'Entered': entered,
+		'ID': ID
 	}
+	giveaways.append(giveaway)
 
+print(giveaways)
 
 def enter_giveaway(session, id=261589, address=3334069, ):
 	response = session.post('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(id), params={'address': address})
