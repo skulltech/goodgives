@@ -1,4 +1,5 @@
 import requests
+from getpass import getpass
 from lxml import html
 
 
@@ -70,7 +71,7 @@ def enter_giveaway(session, identifier):
 def main():	
 	session = requests.Session()
 	username = input('[?] Enter your Goodreads username: ')
-	username = input('[?] Enter your Goodreads password: ')
+	password = getpass('[?] Enter your Goodreads password: ')
 	login(session, username, password)
 	giveaways = scrape_giveaways(session)
 	print()
