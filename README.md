@@ -14,7 +14,7 @@ ___Important___: Before running the script, make sure you've entered a giveaway 
 
 ## Usage
 
-Run the script from the terminall like the following example.
+Run the script from the terminal like the following example.
 
 ```console
 ~/Documents/goodreads-giveaways  master ✔                                0m  
