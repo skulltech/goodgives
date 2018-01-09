@@ -48,11 +48,11 @@ def scrape_giveaways(session):
 
 	print('[*] {} giveaways scraped.'.format(len(giveaways)))
 	giveaways = [g for g in giveaways if not g['Entered']]
-	print('[*] {} giveaways to enter!')
+	print('[*] {} giveaways to enter!'.format(len(giveaways)))
 	return giveaways
 
 
-def enter_giveaway(session, identifier):
+def enter_giveaway(session, identifier, name=None):
 	page = session.get('https://www.goodreads.com/giveaway/enter_choose_address/{}'.format(identifier))
 	tree = html.fromstring(page.content)
 	try:
@@ -78,6 +78,7 @@ def enter_giveaway(session, identifier):
 	}
 	response = session.post('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(identifier),
 							params={'address': address}, data=payload)
+	print('[*] Entered giveaway for: {0} - {1}'.format(identifier, name))
 
 
 def main():	
@@ -90,8 +91,7 @@ def main():
 
 	for giveaway in giveaways:
 		if not giveaway['Entered']:
-			enter_giveaway(session, giveaway['ID'])
-			print('[*] Entered giveaway for: {0} - {1}'.format(giveaway['Name'], giveaway['ID']))
+			enter_giveaway(session, giveaway['ID'], name=giveaway['Name'])
 
 
 
