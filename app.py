@@ -1,35 +1,45 @@
 import giveaways
-import uuid
-from flask import Flask, session, redirect, url_for
+import pickle
+import base64
+import requests
+from flask import Flask, session, redirect, url_for, render_template, request
 
 
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
 
 
 @app.route('/scrape-giveaways')
 def scrape_giveaways():
-	if not 'uid' in session:
-		return redirect(url_for('login'))
+    if not 'jar' in session:
+        return redirect(url_for('login'))
+    
+    jar = pickle.loads(base64.b64decode(session['jar'].encode()))
+    s = requests.Session()
+    s.cookies = requests.utils.cookiejar_from_dict(jar)
+    gas = giveaways.scrape_giveaways(s)
+    print(gas)
 
-	
+
 
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	if request.method == 'POST':
-		session['username'] = request.form['username']
-		session['password'] = request.form['password']
-		session['uid'] = uuid.uuid4()
-		return redirect(url_for('index'))
+    if request.method == 'POST':
+        s = requests.Session()
+        giveaways.login(s, request.form['username'], request.form['password'])
+        jar = requests.utils.dict_from_cookiejar(s.cookies)
+        session['jar'] = base64.b64encode(pickle.dumps(jar)).decode()
+        return redirect(url_for('scrape_giveaways'))
 
-    return 'Hello, World!'
+    return render_template('login.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-	if 
+    pass
 
 
 

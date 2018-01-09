@@ -28,7 +28,7 @@ def scrape_giveaways(session):
 	count = 1
 
 	while True:
-		page = session.get('https://www.goodreads.com/giveaway', params={'page': count})
+		page = session.get('https://www.goodreads.com/giveaway?sort=ending_soon', params={'page': count})
 		tree = html.fromstring(page.content)
 		lis = tree.xpath('//li[@class="listElement giveawayListItem"]')
 
@@ -44,7 +44,6 @@ def scrape_giveaways(session):
 				'ID': ID
 			}
 			giveaways.append(giveaway)
-		
 		count = count + 1
 
 	print('[*] {} giveaways scraped.'.format(len(giveaways)))
@@ -91,6 +90,8 @@ def main():
 		if not giveaway['Entered']:
 			enter_giveaway(session, giveaway['ID'])
 			print('[*] Entered giveaway for: {0} - {1}'.format(giveaway['Name'], giveaway['ID']))
+			print(session.cookies)
+			break
 
 
 
