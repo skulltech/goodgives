@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = 'super secret key'
 
 
-@app.route('/scrape-giveaways')
+@app.route('/giveaways', methods=['GET', 'POST'])
 def scrape_giveaways():
     if not 'jar' in session:
         return redirect(url_for('login'))
@@ -18,11 +18,21 @@ def scrape_giveaways():
     jar = pickle.loads(base64.b64decode(session['jar'].encode()))
     s = requests.Session()
     s.cookies = requests.utils.cookiejar_from_dict(jar)
-    gas = giveaways.scrape_giveaways(s)
-    print(gas)
+    
+    if request.method == 'POST':
+        ids = []
+        for identifier, check in request.form.to_dict().items():
+            if check=='on':
+                ids.append(int(identifier))
+        for identifier in ids:
+            giveaways.enter_giveaway(s, identifier)
 
-
-
+        return 'Entered giveaway for books with IDs: {}'.format(str(ids))
+    else:
+        gas = giveaways.scrape_giveaways(s)
+        gas = [g for g in gas if not g['Entered']]
+        
+        return render_template('giveaways.html', books=gas)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -40,7 +50,6 @@ def login():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     pass
-
 
 
 

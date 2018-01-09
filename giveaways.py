@@ -47,6 +47,8 @@ def scrape_giveaways(session):
 		count = count + 1
 
 	print('[*] {} giveaways scraped.'.format(len(giveaways)))
+	giveaways = [g for g in giveaways if not g['Entered']]
+	print('[*] {} giveaways to enter!')
 	return giveaways
 
 
@@ -90,8 +92,6 @@ def main():
 		if not giveaway['Entered']:
 			enter_giveaway(session, giveaway['ID'])
 			print('[*] Entered giveaway for: {0} - {1}'.format(giveaway['Name'], giveaway['ID']))
-			print(session.cookies)
-			break
 
 
 

@@ -1,0 +1,16 @@
+<html>
+<head><style type="text/css">
+    .container { border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll; }
+</style></head>
+<body>
+
+<div class="container">
+    <form role="form" action="/giveaways" method="post">    
+        {% for book in books %}
+            <input type="checkbox" name="{{ book['ID'] }}"> <a href="{{ book['URL'] }}">{{ book['Name'] }}</a><br>
+        {% endfor %}
+        <input type="submit" name="submit" value="Submit">
+    </form>
+</div>
+
+</body>
