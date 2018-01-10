@@ -1,16 +1,18 @@
-<html>
-<head><style type="text/css">
-    .container { border:2px solid #ccc; width:600px; height: 1000px; overflow-y: scroll; }
-</style></head>
-<body>
+{% extends "base.html" %}
+{% block title %}Giveaways{% endblock %}
+{% block content %}
 
-<div class="container">
     <form role="form" action="/giveaways" method="post">    
         {% for book in books %}
             <input type="checkbox" name="{{ book['ID'] }}"> <a href="{{ book['URL'] }}">{{ book['Name'] }}</a><br>
         {% endfor %}
         <input type="submit" name="submit" value="Submit">
     </form>
-</div>
 
-</body>
+{% endblock %}
+
+<!-- 
+<head><style type="text/css">
+    .container { border:2px solid #ccc; width:600px; height: 1000px; overflow-y: scroll; }
+</style></head>
+ -->
