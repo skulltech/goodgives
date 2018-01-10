@@ -49,7 +49,7 @@ def login():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    pass
+    return render_template('index.html')
 
 
 
