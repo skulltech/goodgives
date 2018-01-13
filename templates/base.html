@@ -9,41 +9,44 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="/static/styles/custom.css" rel="stylesheet">
+    <link href="/static/styles/goodgives.css" rel="stylesheet">
 
-    <title>Goodreads-Giveaways by SkullTech &mdash; {% block title %}{% endblock %}</title>
+    <title>Goodgives &mdash; {% block title %}{% endblock %}</title>
   </head>
   <body>
-    <div class="container">
-      <header class="header clearfix">
-        <nav>
-          <ul class="nav nav-pills float-right">
-            <li class="nav-item">
-              <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/giveaways">Giveaways</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Goodreads Giveaways</h3>
-      </header>
-
-      <main role="main">
-
-        {% block content %}
-        {% endblock %}
 
 
-      <footer class="footer">
-        <p>&copy; <a href="https://sumit-ghosh.com">Sumit Ghosh (SkullTech)</a></p>
-      </footer>
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <header class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">goodgives</h3>
+              <nav class="nav nav-masthead">
+                <a class="nav-link" href="#">Login</a>
+              </nav>
+            </div>
+          </header>
+
+          <main role="main" class="inner cover">
+            {% block content %}
+            {% endblock %}
+          </main>
+
+          <footer class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </footer>
+
+        </div>
+
+      </div>
+
+    </div>
 
     </div> <!-- /container -->
 

@@ -59,14 +59,14 @@ def enter_giveaway(session, identifier, name=None):
 		address = int(tree.xpath('//a[@class="gr-button gr-button--small"]/@id')[0][13:])
 	except IndexError:
 		print('''
-[!] Looks like you didn\'t read the README properly. That\'s a shame. 
+[!] Looks like you didn\'t read the README properly. That\'s a shame.
     Here\'s an important and relevant part of the README restated.
 
-    Before running the script, make sure you've entered a giveaway manually at least once. The first time involves setting up a new address, and the script assumes that it's done.
+Before running the script, make sure you've entered a giveaway manually at least once. The first time involves setting up a new address, and the script assumes that it's done.
 			''')
 		sys.exit()
 
-	
+
 	page = session.get('https://www.goodreads.com/giveaway/enter_print_giveaway/{}'.format(identifier), params={'address': address})
 	tree = html.fromstring(page.content)
 	authenticity_token = tree.xpath('//input[@name="authenticity_token"]/@value')[0]
@@ -81,7 +81,7 @@ def enter_giveaway(session, identifier, name=None):
 	print('[*] Entered giveaway for: {0} - {1}'.format(identifier, name))
 
 
-def main():	
+def main():
 	session = requests.Session()
 	username = input('[?] Enter your Goodreads username: ')
 	password = getpass('[?] Enter your Goodreads password: ')
@@ -91,7 +91,10 @@ def main():
 
 	for giveaway in giveaways:
 		if not giveaway['Entered']:
-			enter_giveaway(session, giveaway['ID'], name=giveaway['Name'])
+			try:
+				enter_giveaway(session, giveaway['ID'], name=giveaway['Name'])
+			except:
+				print('Couldn\'t do it. :(')
 
 
 
