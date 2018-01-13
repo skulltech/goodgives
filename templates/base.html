@@ -26,7 +26,9 @@
             <div class="inner">
               <h3 class="masthead-brand">goodgives</h3>
               <nav class="nav nav-masthead">
-                <a class="nav-link" href="#">Login</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signInModal">Sign In</button>
+                <!-- <a class="nav-link" href="#">Login</a> -->
               </nav>
             </div>
           </header>
@@ -49,6 +51,38 @@
     </div>
 
     </div> <!-- /container -->
+
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signInModalLabel">Sign In using Goodreads</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
+          <form>
+          <div class="modal-body">
+              <div class="form-group">
+                <label for="inputEmail" class="form-control-label">Email address</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword" class="form-control-label">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+          </div>
+          </form>
+        
+        </div>
+      </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
